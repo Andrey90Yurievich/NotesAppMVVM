@@ -1,6 +1,7 @@
 package ru.ayuandrey.notesappmvvm
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,8 +16,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.ayuandrey.notesappmvvm.navigation.NotesNavHost
 import ru.ayuandrey.notesappmvvm.ui.theme.NotesAppMVVMTheme
 
@@ -29,6 +32,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NotesAppMVVMTheme {
+
+                val context = LocalContext.current //Получите доступ к текущему значению a с помощью его свойства.
+                val mViewModel: MainViewModel = viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+
                 Scaffold(
                     topBar = {
                         TopAppBar(
@@ -48,7 +55,7 @@ class MainActivity : ComponentActivity() {
                                 .padding(top = 60.dp),
                             color = MaterialTheme.colorScheme.background
                         ) {
-                            NotesNavHost()
+                            NotesNavHost(mViewModel)
                         }
                     }
                 )

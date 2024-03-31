@@ -30,7 +30,7 @@ import ru.ayuandrey.notesappmvvm.utils.TYPE_ROOM
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun StartScreen(navController: NavHostController) {
+fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
 
     val context = LocalContext.current //Получите доступ к текущему значению a с помощью его свойства.
     val mViewModel: MainViewModel = viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
@@ -79,6 +79,9 @@ fun StartScreen(navController: NavHostController) {
 @Composable
 fun prevStartScreen() {
     NotesAppMVVMTheme {
-        StartScreen(navController = rememberNavController())
+        val context = LocalContext.current //Получите доступ к текущему значению a с помощью его свойства.
+        val mViewModel: MainViewModel = viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+
+        StartScreen(navController = rememberNavController(), viewModel = mViewModel)
     }
 }

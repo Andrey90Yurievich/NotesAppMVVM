@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,7 +19,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,10 +39,10 @@ import ru.ayuandrey.notesappmvvm.ui.theme.NotesAppMVVMTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(navController: NavHostController, viewModel: MainViewModel) {
 
-    val context = LocalContext.current //Получите доступ к текущему значению a с помощью его свойства.
-    val mViewModel: MainViewModel = viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+    val notes = viewModel.readAllNotes().observeAsState(listOf()).value
+
 
     //val notes = mViewModel.readTest.observeAsState(listOf()).value
 
@@ -69,11 +67,11 @@ fun MainScreen(navController: NavHostController) {
             //NoteItem(title = "Note 4", subtitle = "Subtitle for note 4", navController = navController)
        // }
 
-//        LazyColumn {
-//            items (notes) {note ->
-//                NoteItem(note = note, navController = navController)
-//            }
-//        }
+        LazyColumn {
+            items (notes) {note ->
+                NoteItem(note = note, navController = navController)
+            }
+        }
 
     }
 }
@@ -112,6 +110,9 @@ fun NoteItem(note: Note, navController: NavHostController) {
 @Composable
 fun prevMAinScreen() {
     NotesAppMVVMTheme {
-        MainScreen(navController = rememberNavController())
+        val context = LocalContext.current //Получите доступ к текущему значению a с помощью его свойства.
+        val mViewModel: MainViewModel = viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+
+        MainScreen(navController = rememberNavController(), viewModel = mViewModel)
     }
 }
