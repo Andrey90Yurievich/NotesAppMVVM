@@ -2,41 +2,154 @@ package ru.ayuandrey.notesappmvvm.screens
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
 import ru.ayuandrey.notesappmvvm.MainViewModel
 import ru.ayuandrey.notesappmvvm.MainViewModelFactory
 import ru.ayuandrey.notesappmvvm.navigation.NavRoute
 import ru.ayuandrey.notesappmvvm.ui.theme.NotesAppMVVMTheme
+import ru.ayuandrey.notesappmvvm.utils.Constants
 import ru.ayuandrey.notesappmvvm.utils.Constants.Keys.FIREBASE_DATABASE
 import ru.ayuandrey.notesappmvvm.utils.Constants.Keys.ROOM_DATABASE
 import ru.ayuandrey.notesappmvvm.utils.Constants.Keys.WHAT_WILL_WE_USE
+import ru.ayuandrey.notesappmvvm.utils.LOGIN
+import ru.ayuandrey.notesappmvvm.utils.PASSWORD
 import ru.ayuandrey.notesappmvvm.utils.TYPE_FIREBASE
 import ru.ayuandrey.notesappmvvm.utils.TYPE_ROOM
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
 
-    val context = LocalContext.current //Получите доступ к текущему значению a с помощью его свойства.
-    val mViewModel: MainViewModel = viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+//    val context = LocalContext.current //Получите доступ к текущему значению a с помощью его свойства.
+//    val mViewModel: MainViewModel = viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+
+
+
+    val bottomSheetState = rememberModalBottomSheetState()
+    val coroutineScope = rememberCoroutineScope()
+
+    var login by remember { mutableStateOf(Constants.Keys.EMPTY) }
+    var password by remember { mutableStateOf(Constants.Keys.EMPTY) }
+
+    var showBottomSheet by remember {
+        mutableStateOf(false)
+    }
+
+//    Scaffold(
+//        modifier = Modifier.fillMaxSize()
+//    ) {
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize(),
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.Center
+//        ) {
+//            Card(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    //.fillMaxSize()
+//                    .padding(32.dp)
+//            ) {
+//                Column(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(vertical = 8.dp),
+//                    horizontalAlignment = Alignment.CenterHorizontally
+//                ) {
+//                    Text(
+//                        //text = Constants.Keys.TITLE,
+//                        text = note.title,
+//                        fontSize = 24.sp,
+//                        fontWeight = FontWeight.Bold,
+//                        modifier = Modifier.padding(top = 32.dp)
+//                    )
+//                    Text(
+//                        //text = Constants.Keys.SUBTITLE,
+//                        text = note.subtitle,
+//                        fontSize = 18.sp,
+//                        fontWeight = FontWeight.Light,
+//                        modifier = Modifier.padding(top = 16.dp)
+//                    )
+//                }
+//            }
+//            Row(
+//                modifier = Modifier
+//                    .padding(horizontal = 32.dp)
+//                    .fillMaxWidth(),
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.SpaceAround
+//            ) {
+//                Button(onClick = {
+//                    showBottomSheet = true
+//                    coroutineScope.launch {
+//                        title = note.title
+//                        subtitle = note.subtitle
+//                        bottomSheetState.show()
+//                    }
+//                }) {
+//                    Text(text = Constants.Keys.UPDATE)
+//                }
+//                Button(onClick = {
+//                    coroutineScope.launch {
+//                        viewModel.deleteNote(note = note) {
+//                            navController.navigate(NavRoute.Main.route)
+//                        }
+//                    }
+//
+//                }) {
+//                    Text(text = Constants.Keys.DELETE)
+//                }
+//            }
+//            Button(
+//                modifier = Modifier
+//                    .padding(top = 16.dp)
+//                    .padding(horizontal = 32.dp)
+//                    .fillMaxWidth(),
+//                onClick = {
+//                    navController.navigate(NavRoute.Main.route)
+//                }) {
+//                Text(text = Constants.Keys.NAV_BACK)
+//            }
+//        }
+//    }
+
+
+
+
+
 
 
     Scaffold(
@@ -50,10 +163,9 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
             Text(text = WHAT_WILL_WE_USE)
             Button(
                 onClick = {
-                          mViewModel.initDatabase(TYPE_ROOM) {
-                              navController.navigate(route = NavRoute.Main.route)
-                          }
-
+                    viewModel.initDatabase(TYPE_ROOM) {
+                        navController.navigate(route = NavRoute.Main.route)
+                    }
                 },
                 modifier = Modifier
                     .width(200.dp)
@@ -63,10 +175,14 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
             }
             Button(
                 onClick = {
-                    mViewModel.initDatabase(TYPE_FIREBASE) {
-                        navController.navigate(route = NavRoute.Main.route)
+                    showBottomSheet = true
+                    coroutineScope.launch {
+                        bottomSheetState.show()
                     }
 
+//                    viewModel.initDatabase(TYPE_FIREBASE) {
+//                        navController.navigate(route = NavRoute.Main.route)
+//                    }
                 },
                 modifier = Modifier
                     .width(200.dp)
@@ -76,6 +192,85 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
             }
         }
     }
+
+
+    if (showBottomSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showBottomSheet = false },
+            sheetState = bottomSheetState
+        ) {
+            Surface {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(all = 32.dp)
+                ) {
+                    Text(
+                        text = Constants.Keys.LOG_IN,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    )
+                    OutlinedTextField(
+                        value = login,
+                        onValueChange = {
+                            login = it
+                        },
+                        label = { Text(text = Constants.Keys.LOGIN_TEXT) },
+                        isError = login.isEmpty()
+                    )
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = {
+                            password = it
+                        },
+                        label = { Text(text = Constants.Keys.PASSWORD_TEXT) },
+                        isError = password.isEmpty()
+                    )
+                    Button(
+                        modifier = Modifier.padding(top = 16.dp),
+                        onClick = {
+                            LOGIN = login
+                            PASSWORD = password
+                            viewModel.initDatabase(TYPE_FIREBASE) {
+                                Log.d("checkData", "Auth success")
+                            }
+//                            coroutineScope.launch {
+//                                viewModel.updateNote(note =
+//                                Note(id = note.id, title = title, subtitle = subtitle)
+//                                ) {
+//                                    Log.e( "AAA"," ПРОШЛА ЗАМЕТКАAAA" )
+//                                    navController.navigate(NavRoute.Main.route)
+//                                }
+//                            }
+                        },
+                        enabled = login.isNotEmpty() && password.isNotEmpty()
+                    ) {
+                        Text(text = Constants.Keys.SIGN_IN)
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 @Preview(showBackground = true)
