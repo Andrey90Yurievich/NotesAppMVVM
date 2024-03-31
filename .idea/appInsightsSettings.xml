@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="ru.ayuandrey.notesappmvvm" />
+                  <option name="mobileSdkAppId" value="1:1079815571728:android:1f2c77b12738f6a0efbd95" />
+                  <option name="projectId" value="notws-app" />
+                  <option name="projectNumber" value="1079815571728" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
