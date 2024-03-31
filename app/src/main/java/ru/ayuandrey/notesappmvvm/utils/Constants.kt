@@ -7,3 +7,36 @@ const val TYPE_ROOM = "type_room"
 const val TYPE_FIREBASE = "type_firebase"
 
 lateinit var REPOSITORY: DatabaseRepository
+
+
+object Constants {
+    object Keys {
+        const val NOTE_DATABASE = "notes_database"
+        const val NOTE_TABLE = "notes_table"
+        const val ADD_NEW_NOTE = "Add new note"
+        const val NOTE_TITLE = "Note title"
+        const val NOTE_SUBTITLE = "Note subtitle"
+        const val ADD_NOTE = "Add Note"
+        const val TITLE = "Title"
+        const val SUBTITLE = "SubTitle"
+        const val WHAT_WILL_WE_USE = "Что мы будем использовать?"
+        const val ROOM_DATABASE = "Room database"
+        const val FIREBASE_DATABASE = "Firebase database"
+        const val ID = "Id"
+        const val NONE = "None"
+        const val UPDATE = "UPDATE"
+        const val DELETE = "DELETE"
+        const val NAV_BACK = "NAV_BACK"
+        const val EDIT_NOTE = "Edit_note"
+        const val EMPTY = ""
+        const val UPDATE_NOTE = "Update note"
+    }
+
+    object Screens {
+        const val START_SCREEN = "start_screen"
+        const val MAIN_SCREEN = "main_screen"
+        const val ADD_SCREEN = "add_screen"
+        const val NOTE_SCREEN = "note_screen"
+
+    }
+}

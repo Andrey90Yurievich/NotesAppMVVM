@@ -29,6 +29,8 @@ import ru.ayuandrey.notesappmvvm.MainViewModel
 import ru.ayuandrey.notesappmvvm.MainViewModelFactory
 import ru.ayuandrey.notesappmvvm.model.Note
 import ru.ayuandrey.notesappmvvm.navigation.NavRoute
+import ru.ayuandrey.notesappmvvm.utils.Constants
+import ru.ayuandrey.notesappmvvm.utils.Constants.Keys.ADD_NEW_NOTE
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -52,7 +54,7 @@ fun AddScreen(navController: NavHostController, viewModel: MainViewModel) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Add new note",
+                text = Constants.Keys.ADD_NEW_NOTE,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -65,7 +67,7 @@ fun AddScreen(navController: NavHostController, viewModel: MainViewModel) {
                     title = it
                     isButtonEnabled = title.isNotEmpty() && subtitle.isNotEmpty()
                                 },
-                label = { Text(text = "Note title") },
+                label = { Text(text = Constants.Keys.NOTE_TITLE) },
                 isError = title.isEmpty()
             )
             OutlinedTextField(
@@ -74,7 +76,7 @@ fun AddScreen(navController: NavHostController, viewModel: MainViewModel) {
                     subtitle = it
                     isButtonEnabled = title.isNotEmpty() && subtitle.isNotEmpty()
                                 },
-                label = { Text(text = "Note subtitle") },
+                label = { Text(text = Constants.Keys.NOTE_SUBTITLE) },
                 isError = subtitle.isEmpty()
             )
 
@@ -88,7 +90,7 @@ fun AddScreen(navController: NavHostController, viewModel: MainViewModel) {
 
                 }
             ) {
-                Text(text = "Добавить заметку")
+                Text(text = Constants.Keys.ADD_NOTE)
                 
             }
         }

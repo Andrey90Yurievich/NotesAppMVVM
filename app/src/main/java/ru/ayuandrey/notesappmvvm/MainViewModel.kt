@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.ayuandrey.notesappmvvm.database.room.AppRoomDatabase
@@ -69,6 +70,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
+
+     suspend fun updateNote(note: Note, onSuccess: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            REPOSITORY.update(note = note) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    onSuccess()
+                }
+            }
+        }
+     }
+
+
+    suspend fun deleteNote(note: Note, onSuccess: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+        REPOSITORY.delete(note = note) {
+            viewModelScope.launch(Dispatchers.Main) {
+                onSuccess()
+                }
+            }
+        }
+    }
+
 
     fun readAllNotes() = REPOSITORY.readAll
 
