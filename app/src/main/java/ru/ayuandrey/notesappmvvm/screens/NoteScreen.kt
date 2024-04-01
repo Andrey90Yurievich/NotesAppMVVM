@@ -42,6 +42,9 @@ import ru.ayuandrey.notesappmvvm.MainViewModelFactory
 import ru.ayuandrey.notesappmvvm.model.Note
 import ru.ayuandrey.notesappmvvm.navigation.NavRoute
 import ru.ayuandrey.notesappmvvm.utils.Constants
+import ru.ayuandrey.notesappmvvm.utils.DB_TYPE
+import ru.ayuandrey.notesappmvvm.utils.TYPE_FIREBASE
+import ru.ayuandrey.notesappmvvm.utils.TYPE_ROOM
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -49,10 +52,19 @@ import ru.ayuandrey.notesappmvvm.utils.Constants
 fun NoteScreen(navController: NavHostController, viewModel: MainViewModel, noteId: String?) {
 
     val notes = viewModel.readAllNotes().observeAsState(listOf()).value
-    val note = notes.firstOrNull { it.id == noteId?.toInt() } ?: Note(
-        title = Constants.Keys.NONE,
-        subtitle = Constants.Keys.NONE
-    )
+//    val note = notes.firstOrNull { it.id == noteId?.toInt() } ?: Note(
+//        title = Constants.Keys.NONE,
+//        subtitle = Constants.Keys.NONE
+//    )
+    val note = when(DB_TYPE) {
+        TYPE_ROOM -> {
+            notes.firstOrNull { it.id == noteId?.toInt() } ?: Note()
+        }
+        TYPE_FIREBASE -> {
+            notes.firstOrNull { it.firebaseId == noteId } ?: Note()
+        }
+        else -> Note()
+    }
 
     val bottomSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
@@ -171,7 +183,7 @@ fun NoteScreen(navController: NavHostController, viewModel: MainViewModel, noteI
                     OutlinedTextField(
                         value = subtitle,
                         onValueChange = {
-                            title = it
+                            subtitle = it
                         },
                         label = { Text(text = Constants.Keys.SUBTITLE) },
                         isError = subtitle.isEmpty()
@@ -181,9 +193,9 @@ fun NoteScreen(navController: NavHostController, viewModel: MainViewModel, noteI
                         onClick = {
                             coroutineScope.launch {
                                 viewModel.updateNote(note =
-                                Note(id = note.id, title = title, subtitle = subtitle)
+                                Note(id = note.id, title = title, subtitle = subtitle, firebaseId = note.firebaseId)
                             ) {
-                                    Log.e( "AAA","ЕБАНОЕ ГОВНО ПРОШЛА ЗАМЕТКАAAA" )
+                                    Log.e( "AAA"," ПРОШЛА ЗАМЕТКАAAA" )
                                 navController.navigate(NavRoute.Main.route)
                                 }
                             }

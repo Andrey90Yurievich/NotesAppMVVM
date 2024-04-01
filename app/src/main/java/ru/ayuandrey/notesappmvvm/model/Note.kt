@@ -8,11 +8,12 @@ import ru.ayuandrey.notesappmvvm.utils.Constants.Keys.NOTE_TABLE
 @Entity(tableName = NOTE_TABLE)
 data class Note(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    var id: Int = 0,
     @ColumnInfo
-    val title: String,
+    var title: String = "",
     @ColumnInfo
-    val subtitle: String
+    var subtitle: String = "",
+    var firebaseId: String = ""
 
 
 )

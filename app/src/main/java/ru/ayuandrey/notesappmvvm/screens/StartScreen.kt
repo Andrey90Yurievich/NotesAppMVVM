@@ -42,6 +42,7 @@ import ru.ayuandrey.notesappmvvm.utils.Constants
 import ru.ayuandrey.notesappmvvm.utils.Constants.Keys.FIREBASE_DATABASE
 import ru.ayuandrey.notesappmvvm.utils.Constants.Keys.ROOM_DATABASE
 import ru.ayuandrey.notesappmvvm.utils.Constants.Keys.WHAT_WILL_WE_USE
+import ru.ayuandrey.notesappmvvm.utils.DB_TYPE
 import ru.ayuandrey.notesappmvvm.utils.LOGIN
 import ru.ayuandrey.notesappmvvm.utils.PASSWORD
 import ru.ayuandrey.notesappmvvm.utils.TYPE_FIREBASE
@@ -164,6 +165,7 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
             Button(
                 onClick = {
                     viewModel.initDatabase(TYPE_ROOM) {
+                        DB_TYPE = TYPE_FIREBASE
                         navController.navigate(route = NavRoute.Main.route)
                     }
                 },
@@ -233,6 +235,8 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
                             LOGIN = login
                             PASSWORD = password
                             viewModel.initDatabase(TYPE_FIREBASE) {
+                                DB_TYPE = TYPE_FIREBASE
+                                navController.navigate(NavRoute.Main.route)
                                 Log.d("checkData", "Auth success")
                             }
 //                            coroutineScope.launch {
