@@ -45,6 +45,7 @@ import ru.ayuandrey.notesappmvvm.utils.Constants.Keys.WHAT_WILL_WE_USE
 import ru.ayuandrey.notesappmvvm.utils.DB_TYPE
 import ru.ayuandrey.notesappmvvm.utils.LOGIN
 import ru.ayuandrey.notesappmvvm.utils.PASSWORD
+import ru.ayuandrey.notesappmvvm.utils.TYPE_DATABASE
 import ru.ayuandrey.notesappmvvm.utils.TYPE_FIREBASE
 import ru.ayuandrey.notesappmvvm.utils.TYPE_ROOM
 
@@ -69,86 +70,6 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
         mutableStateOf(false)
     }
 
-//    Scaffold(
-//        modifier = Modifier.fillMaxSize()
-//    ) {
-//        Column(
-//            modifier = Modifier
-//                .fillMaxSize(),
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.Center
-//        ) {
-//            Card(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    //.fillMaxSize()
-//                    .padding(32.dp)
-//            ) {
-//                Column(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(vertical = 8.dp),
-//                    horizontalAlignment = Alignment.CenterHorizontally
-//                ) {
-//                    Text(
-//                        //text = Constants.Keys.TITLE,
-//                        text = note.title,
-//                        fontSize = 24.sp,
-//                        fontWeight = FontWeight.Bold,
-//                        modifier = Modifier.padding(top = 32.dp)
-//                    )
-//                    Text(
-//                        //text = Constants.Keys.SUBTITLE,
-//                        text = note.subtitle,
-//                        fontSize = 18.sp,
-//                        fontWeight = FontWeight.Light,
-//                        modifier = Modifier.padding(top = 16.dp)
-//                    )
-//                }
-//            }
-//            Row(
-//                modifier = Modifier
-//                    .padding(horizontal = 32.dp)
-//                    .fillMaxWidth(),
-//                verticalAlignment = Alignment.CenterVertically,
-//                horizontalArrangement = Arrangement.SpaceAround
-//            ) {
-//                Button(onClick = {
-//                    showBottomSheet = true
-//                    coroutineScope.launch {
-//                        title = note.title
-//                        subtitle = note.subtitle
-//                        bottomSheetState.show()
-//                    }
-//                }) {
-//                    Text(text = Constants.Keys.UPDATE)
-//                }
-//                Button(onClick = {
-//                    coroutineScope.launch {
-//                        viewModel.deleteNote(note = note) {
-//                            navController.navigate(NavRoute.Main.route)
-//                        }
-//                    }
-//
-//                }) {
-//                    Text(text = Constants.Keys.DELETE)
-//                }
-//            }
-//            Button(
-//                modifier = Modifier
-//                    .padding(top = 16.dp)
-//                    .padding(horizontal = 32.dp)
-//                    .fillMaxWidth(),
-//                onClick = {
-//                    navController.navigate(NavRoute.Main.route)
-//                }) {
-//                Text(text = Constants.Keys.NAV_BACK)
-//            }
-//        }
-//    }
-
-
-
 
 
 
@@ -164,8 +85,9 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
             Text(text = WHAT_WILL_WE_USE)
             Button(
                 onClick = {
+
                     viewModel.initDatabase(TYPE_ROOM) {
-                        DB_TYPE = TYPE_FIREBASE
+                        DB_TYPE.value = TYPE_FIREBASE
                         navController.navigate(route = NavRoute.Main.route)
                     }
                 },
@@ -235,7 +157,7 @@ fun StartScreen(navController: NavHostController, viewModel: MainViewModel) {
                             LOGIN = login
                             PASSWORD = password
                             viewModel.initDatabase(TYPE_FIREBASE) {
-                                DB_TYPE = TYPE_FIREBASE
+                                DB_TYPE.value = TYPE_FIREBASE
                                 navController.navigate(NavRoute.Main.route)
                                 Log.d("checkData", "Auth success")
                             }

@@ -56,7 +56,7 @@ fun NoteScreen(navController: NavHostController, viewModel: MainViewModel, noteI
 //        title = Constants.Keys.NONE,
 //        subtitle = Constants.Keys.NONE
 //    )
-    val note = when(DB_TYPE) {
+    val note = when(DB_TYPE.value) {
         TYPE_ROOM -> {
             notes.firstOrNull { it.id == noteId?.toInt() } ?: Note()
         }

@@ -17,6 +17,8 @@ import ru.ayuandrey.notesappmvvm.database.room.AppRoomDatabase
 import ru.ayuandrey.notesappmvvm.database.room.repository.RoomRepository
 import ru.ayuandrey.notesappmvvm.model.Note
 import ru.ayuandrey.notesappmvvm.navigation.NavRoute
+import ru.ayuandrey.notesappmvvm.utils.Constants
+import ru.ayuandrey.notesappmvvm.utils.DB_TYPE
 import ru.ayuandrey.notesappmvvm.utils.REPOSITORY
 import ru.ayuandrey.notesappmvvm.utils.TYPE_FIREBASE
 import ru.ayuandrey.notesappmvvm.utils.TYPE_ROOM
@@ -110,6 +112,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun readAllNotes() = REPOSITORY.readAll
+
+
+    fun signOut(onSuccess: () -> Unit) {
+        when(DB_TYPE.value) {
+            TYPE_FIREBASE,
+                TYPE_ROOM -> {
+                    REPOSITORY.signOut()
+                    DB_TYPE.value = Constants.Keys.EMPTY
+                onSuccess()
+
+                }
+            else -> { Log.d("checkData", "signOut: ELSE: ${DB_TYPE.value}") }
+        }
+    }
 
 
 }
