@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1079815571728",
+    "project_id": "notws-app",
+    "storage_bucket": "notws-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079815571728:android:1f2c77b12738f6a0efbd95",
+        "android_client_info": {
+          "package_name": "ru.ayuandrey.notesappmvvm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnxuMPBCrTUCJTv-lUQ0ARNpXUDg2prgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id ("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -59,6 +61,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,4 +70,25 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+
+    //val nav_version = "2.7.7"
+    val nav_version = "2.4.1"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+
+
+    implementation ("androidx.compose.runtime:runtime-livedata:1.0.0-beta01")
+
+    val room_version = "2.4.2"
+    implementation ("androidx.room:room-runtime:$room_version")
+    kapt ("androidx.room:room-compiler:$room_version")
+    implementation ("androidx.room:room-ktx:$room_version")
+
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1")
+
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.auth)
 }
